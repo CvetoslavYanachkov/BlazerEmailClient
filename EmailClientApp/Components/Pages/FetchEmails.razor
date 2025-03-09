@@ -1,0 +1,74 @@
+﻿@page "/fetch-emails"
+@using Application
+@using Application.UseCases
+@rendermode InteractiveServer
+@inject FetchEmailsUseCase FetchEmailsUseCase
+
+
+<h3 class="text-center mt-4">📥 Inbox</h3>
+
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <button class="btn btn-primary w-100" @onclick="FetchingEmails" disabled="@IsFetching">
+            @(IsFetching ? "Fetching Emails..." : "Fetch Emails")
+        </button>
+
+        @if (IsFetching)
+        {
+            <div class="text-center mt-3">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Loading emails...</p>
+            </div>
+        }
+
+        @if (Emails != null && Emails.Length > 0)
+        {
+            <div class="mt-3">
+                <h5>📨 Emails</h5>
+                @* <ul class="list-group"> *@
+                    @foreach (var email in Emails.Split('\n'))
+                    {
+                        <div class="card shadow-lg p-4 mb-3">
+                            <div class="card-body">
+                                <div class="email-content" style="white-space: normal;">
+                                    @((MarkupString)email)
+                                </div>
+                            </div>
+                        </div>
+                    }
+               @*  </ul> *@
+            </div>
+        }
+        else if (!IsFetching && Emails == null)
+        {
+            <p class="text-muted text-center mt-3">Click 'Fetch Emails' to load messages.</p>
+        }
+    </div>
+</div>
+
+@code {
+    private string? Emails { get; set; }
+    private bool IsFetching = false;
+
+    private async Task FetchingEmails()
+    {
+        IsFetching = true;
+        Emails = null;
+
+        try
+        {
+            Emails = await FetchEmailsUseCase.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching emails: {ex.Message}");
+            Emails = "⚠️ Error fetching emails. Please try again.";
+        }
+        finally
+        {
+            IsFetching = false;
+        }
+    }
+}

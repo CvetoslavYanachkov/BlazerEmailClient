@@ -1,0 +1,32 @@
+﻿@page "/"
+@inject Microsoft.Extensions.Options.IOptions<Shared.Models.EmailConfiguration> EmailOptions
+
+<PageTitle>Home</PageTitle>
+
+<div style="display: flex; justify-content: center; align-items: center; height: 90vh; text-align: center;">
+    @if (IsCredentialsFilled)
+    {
+        <div>
+            <h1>Welcome, @UserEmail</h1>
+            <p>Please choose options from the sidebar.</p>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h1>Welcome to Email Client Application</h1>
+            <p>Please configure your email credentials.</p>
+        </div>
+    }
+
+</div>
+
+@code {
+    // Dynamically check if credentials are available
+    private bool IsCredentialsFilled =>
+        !string.IsNullOrEmpty(EmailOptions.Value.Email) &&
+        !string.IsNullOrEmpty(EmailOptions.Value.Password);
+
+    private string UserEmail => EmailOptions.Value.Email;
+    private string UserPassword => EmailOptions.Value.Password;
+}

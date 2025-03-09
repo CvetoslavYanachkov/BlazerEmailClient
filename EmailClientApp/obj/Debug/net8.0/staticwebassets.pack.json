@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\cyana\\source\\repos\\CvetoslavYanachkov\\BlazerEmailClient\\EmailClientApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\EmailClientApp.bundle.scp.css",
+      "PackagePath": "staticwebassets\\EmailClientApp.fdawau1sgx.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\cyana\\source\\repos\\CvetoslavYanachkov\\BlazerEmailClient\\EmailClientApp\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\cyana\\source\\repos\\CvetoslavYanachkov\\BlazerEmailClient\\EmailClientApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\cyana\\source\\repos\\CvetoslavYanachkov\\BlazerEmailClient\\EmailClientApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\cyana\\source\\repos\\CvetoslavYanachkov\\BlazerEmailClient\\EmailClientApp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.EmailClientApp.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.EmailClientApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.EmailClientApp.props",
+      "PackagePath": "build\\EmailClientApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.EmailClientApp.props",
+      "PackagePath": "buildMultiTargeting\\EmailClientApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.EmailClientApp.props",
+      "PackagePath": "buildTransitive\\EmailClientApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

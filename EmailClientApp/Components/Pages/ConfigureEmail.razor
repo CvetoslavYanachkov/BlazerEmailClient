@@ -1,0 +1,139 @@
+﻿@page "/configure-email"
+@using Shared.Models
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager Navigation
+@inject EmailConfiguration EmailConfig
+@rendermode InteractiveServer
+
+<h3 class="mb-4 text-center mt-4">Configure Email Settings</h3>
+<div class="container mt-4">
+    <div class="card shadow-lg p-4">
+        <EditForm Model="emailConfig" OnValidSubmit="SaveSettings">
+            <DataAnnotationsValidator />
+
+            <div class="mb-3">
+                <label for="imapServer" class="form-label fw-bold">IMAP Server:</label>
+                <InputText id="imapServer" class="form-control" @bind-Value="emailConfig.ImapServer" required />
+                <ValidationMessage For="@(() => emailConfig.ImapServer)" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="imapPort" class="form-label fw-bold">IMAP Port:</label>
+                <InputNumber id="imapPort" class="form-control" @bind-Value="emailConfig.ImapPort" required />
+                <ValidationMessage For="@(() => emailConfig.ImapPort)" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="smtpServer" class="form-label fw-bold">SMTP Server:</label>
+                <InputText id="smtpServer" class="form-control" @bind-Value="emailConfig.SmtpServer" required />
+                <ValidationMessage For="@(() => emailConfig.SmtpServer)" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="smtpPort" class="form-label fw-bold">SMTP Port:</label>
+                <InputNumber id="smtpPort" class="form-control" @bind-Value="emailConfig.SmtpPort" required />
+                <ValidationMessage For="@(() => emailConfig.SmtpPort)" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label fw-bold">Email Address:</label>
+                <InputText id="email" class="form-control" @bind-Value="emailConfig.Email" required />
+                <ValidationMessage For="@(() => emailConfig.Email)" class="text-danger" />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label fw-bold">Password:</label>
+                <InputText id="password" type="password" class="form-control" @bind-Value="emailConfig.Password" required />
+                <ValidationMessage For="@(() => emailConfig.Password)" class="text-danger" />
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3" disabled="@IsSaving">
+                @(IsSaving ? "Saving..." : "Save Settings")
+                @if (IsSaving)
+                {
+                    <span class="spinner-border spinner-border-sm ms-2"></span>
+                }
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(successMessage))
+            {
+                <div class="alert alert-success mt-3 fade show">@successMessage</div>
+            }
+            @if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                <div class="alert alert-danger mt-3 fade show">@errorMessage</div>
+            }
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private EmailConfiguration emailConfig = new();
+    private string? successMessage;
+    private string? errorMessage;
+    private bool IsSaving = false;
+
+    protected override void OnInitialized()
+    {
+        emailConfig = new EmailConfiguration
+            {
+                ImapServer = EmailConfig.ImapServer,
+                ImapPort = EmailConfig.ImapPort,
+                SmtpServer = EmailConfig.SmtpServer,
+                SmtpPort = EmailConfig.SmtpPort,
+                Email = EmailConfig.Email,
+                Password = EmailConfig.Password
+            };
+    }
+
+    private async Task SaveSettings()
+    {
+        IsSaving = true;
+        successMessage = null;
+        errorMessage = null;
+        StateHasChanged();
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(emailConfig.ImapServer) ||
+                string.IsNullOrWhiteSpace(emailConfig.SmtpServer) ||
+                string.IsNullOrWhiteSpace(emailConfig.Email) ||
+                string.IsNullOrWhiteSpace(emailConfig.Password) ||
+                emailConfig.ImapPort <= 0 ||
+                emailConfig.SmtpPort <= 0)
+            {
+                errorMessage = "All fields are required and must be valid.";
+                successMessage = null;
+                IsSaving = false;
+                StateHasChanged();
+                return;
+            }
+
+            EmailConfig.ImapServer = emailConfig.ImapServer;
+            EmailConfig.ImapPort = emailConfig.ImapPort;
+            EmailConfig.SmtpServer = emailConfig.SmtpServer;
+            EmailConfig.SmtpPort = emailConfig.SmtpPort;
+            EmailConfig.Email = emailConfig.Email;
+            EmailConfig.Password = emailConfig.Password;
+
+            successMessage = "Email settings saved successfully!";
+            errorMessage = null;
+            IsSaving = false;
+            StateHasChanged();
+
+            await Task.Delay(1000);
+
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to save settings. Error: {ex.Message}";
+            successMessage = null;
+        }
+        finally
+        {
+            IsSaving = false;
+            StateHasChanged();
+        }
+    }
+}

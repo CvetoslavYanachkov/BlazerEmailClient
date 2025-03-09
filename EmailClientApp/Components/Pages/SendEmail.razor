@@ -1,0 +1,84 @@
+﻿@page "/send-email"
+@using Application.DTOs
+@using Application.UseCases
+@rendermode InteractiveServer
+@inject SendEmailUseCase SendEmailUseCase
+
+<h3 class="text-center mt-4">📧 Send an Email</h3>
+
+<EditForm Model="EmailRequest" OnValidSubmit="SendEmailMessage">
+    <DataAnnotationsValidator />
+
+    <div class="container mt-4">
+        <div class="card shadow-lg p-4">
+            <div class="mb-3">
+                <label class="form-label fw-bold">To:</label>
+                <InputText class="form-control" @bind-Value="EmailRequest.To" />
+                <ValidationMessage For="@(() => EmailRequest.To)" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Subject:</label>
+                <InputText class="form-control" @bind-Value="EmailRequest.Subject" />
+                <ValidationMessage For="@(() => EmailRequest.Subject)" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Body:</label>
+                <InputTextArea class="form-control" @bind-Value="EmailRequest.Body" rows="5" />
+                <ValidationMessage For="@(() => EmailRequest.Body)" class="text-danger" />
+            </div>
+
+            <button class="btn btn-primary w-100" type="submit" disabled="@IsSending">
+                @(IsSending ? "Sending..." : "Send Email")
+                @if (IsSending)
+                {
+                    <span class="spinner-border spinner-border-sm ms-2"></span>
+                }
+            </button>
+
+            @if (MessageSent)
+            {
+                <div class="alert alert-success mt-3 fade show" role="alert">
+                    Email sent successfully!
+                </div>
+            }
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private EmailRequest EmailRequest { get; set; } = new EmailRequest();
+    private bool MessageSent = false;
+    private bool IsSending = false;
+
+    private async Task SendEmailMessage()
+    {
+        IsSending = true;
+        MessageSent = false;
+        StateHasChanged();
+        try
+        {
+            await SendEmailUseCase.InvokeAsync(EmailRequest);
+            MessageSent = true;
+            IsSending = false;
+
+            StateHasChanged();
+
+            await Task.Delay(2000);
+
+            EmailRequest = new EmailRequest();
+            MessageSent = false;
+            StateHasChanged();
+
+
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error sending email: {ex.Message}");
+        }
+        finally
+        {
+            IsSending = false;
+            StateHasChanged();
+        }
+    }
+}

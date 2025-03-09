@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "TGJwOl+XRFE=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\cyana\\source\\repos\\CvetoslavYanachkov\\BlazerEmailClient\\EmailClientApp\\EmailClientApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cyana\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.2\\microsoft.extensions.dependencyinjection.abstractions.9.0.2.nupkg.sha512",
+    "C:\\Users\\cyana\\.nuget\\packages\\microsoft.extensions.options\\9.0.2\\microsoft.extensions.options.9.0.2.nupkg.sha512",
+    "C:\\Users\\cyana\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.2\\microsoft.extensions.primitives.9.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}
